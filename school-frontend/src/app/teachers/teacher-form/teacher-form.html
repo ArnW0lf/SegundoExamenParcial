@@ -1,0 +1,67 @@
+<div class="teacher-form-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ pageTitle }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="spinner-container" *ngIf="isLoading">
+        <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
+      </div>
+
+      <form [formGroup]="teacherForm" (ngSubmit)="onSubmit()" [hidden]="isLoading">
+        <mat-form-field appearance="fill">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="first_name" required>
+          <mat-error *ngIf="teacherForm.get('first_name')?.hasError('required')">
+            First name is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="last_name" required>
+          <mat-error *ngIf="teacherForm.get('last_name')?.hasError('required')">
+            Last name is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Specialty</mat-label>
+          <input matInput formControlName="specialty" required>
+          <mat-error *ngIf="teacherForm.get('specialty')?.hasError('required')">
+            Specialty is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" required type="email">
+          <mat-error *ngIf="teacherForm.get('email')?.hasError('required')">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="teacherForm.get('email')?.hasError('email')">
+            Please enter a valid email address
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Subjects Taught</mat-label>
+          <mat-select formControlName="subjects" multiple>
+            <mat-option *ngFor="let subject of availableSubjects" [value]="subject.id">
+              {{subject.name}} ({{subject.code || 'No Code'}})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit" [disabled]="teacherForm.invalid || isLoading">
+            {{ isEditMode ? 'Update' : 'Create' }} Teacher
+          </button>
+          <button mat-stroked-button type="button" (click)="onCancel()" [disabled]="isLoading">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,74 @@
+<mat-toolbar color="primary">
+  <span>School Management</span>
+  <span class="spacer"></span>
+  
+  <!-- Menú de Navegación -->
+  <button mat-button routerLink="/home">
+    <mat-icon>home</mat-icon>
+    Inicio
+  </button>
+  
+  <!-- Opciones para Administrador -->
+  <ng-container *ngIf="isAdmin()">
+    <button mat-button routerLink="/students">
+      <mat-icon>school</mat-icon>
+      Estudiantes
+    </button>
+    
+    <button mat-button routerLink="/teachers">
+      <mat-icon>person</mat-icon>
+      Profesores
+    </button>
+    
+    <button mat-button routerLink="/subjects">
+      <mat-icon>book</mat-icon>
+      Materias
+    </button>
+    
+    <button mat-button routerLink="/grades">
+      <mat-icon>grade</mat-icon>
+      Grados
+    </button>
+  </ng-container>
+
+  <!-- Opciones para Profesor -->
+  <ng-container *ngIf="isTeacher()">
+    <button mat-button routerLink="/grades">
+      <mat-icon>grade</mat-icon>
+      Calificaciones
+    </button>
+    
+    <button mat-button routerLink="/attendance">
+      <mat-icon>event_note</mat-icon>
+      Asistencia
+    </button>
+  </ng-container>
+
+  <!-- Opciones para Estudiante -->
+  <ng-container *ngIf="isStudent()">
+    <button mat-button routerLink="/my-grades">
+      <mat-icon>grade</mat-icon>
+      Mis Calificaciones
+    </button>
+    
+    <button mat-button routerLink="/my-attendance">
+      <mat-icon>event_note</mat-icon>
+      Mi Asistencia
+    </button>
+  </ng-container>
+  
+  <!-- Menú de Usuario -->
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="User menu">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+<div class="content-container">
+  <router-outlet></router-outlet>
+</div>

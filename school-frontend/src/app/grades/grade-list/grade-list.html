@@ -1,0 +1,80 @@
+<div class="grade-list-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Calificaciones</mat-card-title>
+      <button mat-raised-button color="primary" (click)="navigateToCreate()" class="add-button">
+        <mat-icon>add</mat-icon>
+        Agregar Calificación
+      </button>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="spinner-container" *ngIf="isLoading">
+        <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
+      </div>
+
+      <mat-form-field appearance="fill" class="filter-field">
+        <mat-label>Filtrar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ej. Juan" #input>
+      </mat-form-field>
+
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+            <td mat-cell *matCellDef="let grade"> {{grade.id}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="student_name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Estudiante </th>
+            <td mat-cell *matCellDef="let grade"> {{grade.student_name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="subject_name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Materia </th>
+            <td mat-cell *matCellDef="let grade"> {{grade.subject_name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="grade_value">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Calificación </th>
+            <td mat-cell *matCellDef="let grade"> {{grade.grade_value}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
+            <td mat-cell *matCellDef="let grade"> {{grade.description}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="date_recorded">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+            <td mat-cell *matCellDef="let grade"> {{grade.date_recorded | date:'short'}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let grade">
+              <button mat-icon-button color="primary" (click)="editGrade(grade.id)" matTooltip="Editar">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteGrade(grade.id)" matTooltip="Eliminar">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="7">
+              <div *ngIf="input.value">No se encontraron calificaciones que coincidan con "{{input.value}}"</div>
+              <div *ngIf="!input.value">No hay calificaciones disponibles</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Seleccionar página de calificaciones"></mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div> 

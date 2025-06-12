@@ -1,0 +1,50 @@
+.student-list-container {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+mat-card {
+  width: 100%;
+  max-width: 1200px;
+}
+
+mat-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+}
+
+.filter-field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-column-actions {
+  width: 120px;
+  text-align: center;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.add-button {
+  margin-left: auto;
+}
+
+tr.mat-row:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
