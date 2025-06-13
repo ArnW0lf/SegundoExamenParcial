@@ -100,15 +100,36 @@ export class LoginComponent {
       this.isLoading = true;
       const { username, password } = this.loginForm.value;
 
+      console.log('Intentando login con:', { username });
+
       this.authService.login(username, password).subscribe({
         next: (response) => {
-          console.log('Login exitoso');
+          console.log('Login exitoso, respuesta:', response);
+          const user = this.authService.getCurrentUser();
+          console.log('Usuario actual:', user);
 
-          // Simplifica la lógica de redirección
-          if (username.includes('admin')) {
-            this.router.navigate(['/dashboard']);
+          if (user && user.role) {
+            console.log('Redirigiendo según rol:', user.role);
+            switch (user.role.toUpperCase()) {
+              case 'ADMIN':
+                this.router.navigate(['/dashboard']);
+                break;
+              case 'TEACHER':
+                this.router.navigate(['/my-subjects']);
+                break;
+              case 'STUDENT':
+                this.router.navigate(['/my-courses']);
+                break;
+              case 'PARENT':
+                this.router.navigate(['/my-children']);
+                break;
+              default:
+                console.log('Rol no reconocido, redirigiendo a dashboard');
+                this.router.navigate(['/dashboard']);
+            }
           } else {
-            this.router.navigate(['/my-courses']);
+            console.log('No se encontró rol de usuario, redirigiendo a dashboard');
+            this.router.navigate(['/dashboard']);
           }
         },
         error: (error) => {
@@ -119,6 +140,7 @@ export class LoginComponent {
           this.isLoading = false;
         },
         complete: () => {
+          console.log('Login completado');
           this.isLoading = false;
         }
       });

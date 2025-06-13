@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 export class DashboardService {
   private apiUrl = `${environment.apiUrl}/api`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getGeneralStats(): Observable<any> {
     return this.http.get(`${this.apiUrl}/dashboard/`);
@@ -26,4 +26,4 @@ export class DashboardService {
   getPerformanceStats(): Observable<any> {
     return this.http.get(`${this.apiUrl}/predictions/performance-comparison/`);
   }
-} 
+}
