@@ -16,6 +16,9 @@ export class AuthService {
   // Cambia el puerto si tu backend está en otro puerto
   private readonly API_URL = 'http://localhost:8000/api';
 
+  private currentUserSubject = new BehaviorSubject<any>(null);
+  public currentUser$: Observable<any> = this.currentUserSubject.asObservable();
+
   constructor(
     private http: HttpClient,
     private router: Router
@@ -30,6 +33,7 @@ export class AuthService {
       tap(response => {
         if (response && response.access) {
           localStorage.setItem('token', response.access);
+          this.currentUserSubject.next(response); // Actualiza el usuario actual
         }
       }),
       catchError(error => {
@@ -38,4 +42,28 @@ export class AuthService {
       })
     );
   }
+
+  isLoggedIn(): boolean {
+    return !!this.currentUserSubject.value;
+  }
+
+  logout(): void {
+    this.currentUserSubject.next(null);
+    localStorage.removeItem('token');
+  }
+
+  getCurrentUser(): any {
+    return this.currentUserSubject.value;
+  }
+
+  hasRole(role: string): boolean {
+    const user = this.currentUserSubject.value;
+    return user && user.roles && user.roles.includes(role);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  // Aquí puedes agregar métodos para login y actualizar el usuario...
 }
